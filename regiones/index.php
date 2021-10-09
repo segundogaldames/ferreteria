@@ -31,23 +31,28 @@
     <div class="container-fluid">
         <div class="col-md-6 offset-md-3">
             <h4 class="text-success">Lista de Regiones | <a href="<?php echo REGIONES . 'add.php'; ?>" class="btn btn-link">Nueva Región</a></h4>
-            <table class="table table-hover">
-                <tr>
-                    <th>Id</th>
-                    <th>Nombre</th>
-                </tr>
-                <?php foreach($regiones as $region): ?>
-                    <tr>
-                        <td><?php echo $region['id']; ?></td>
-                        <td>
-                            <a href="<?php echo REGIONES . 'show.php?id=' . $region['id']; ?>">
-                                <?php echo $region['nombre']; ?>
-                            </a>
 
-                        </td>
+            <?php if(count($regiones)): ?>
+                <table class="table table-hover">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
                     </tr>
-                <?php endforeach; ?>
-            </table>
+                    <?php foreach($regiones as $region): ?>
+                        <tr>
+                            <td><?php echo $region['id']; ?></td>
+                            <td>
+                                <a href="<?php echo REGIONES . 'show.php?id=' . $region['id']; ?>">
+                                    <?php echo $region['nombre']; ?>
+                                </a>
+
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+            <?php else: ?>
+                <p class="text-info">No hay regiones registradas</p>
+            <?php endif; ?>
         </div>
 
     </div>

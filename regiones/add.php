@@ -77,6 +77,7 @@
                 </div>
                 <input type="hidden" name="confirm" value="1">
                 <button type="submit" class="btn btn-outline-success">Guardar</button>
+                <a href="<?php echo REGIONES; ?>" class="btn btn-outline-secondary">Volver</a>
             </form>
         </div>
 
