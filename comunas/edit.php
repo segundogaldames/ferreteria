@@ -3,6 +3,8 @@
     require('../class/rutas.php');
     require('../class/conexion.php');
 
+    session_start();
+
     if (isset($_GET['id'])) {
         $id = (int) $_GET['id'];
 
@@ -14,6 +16,31 @@
         #listado de regiones
         $res = $mbd->query("SELECT id, nombre FROM regiones ORDER BY nombre");
         $regiones = $res->fetchall();
+
+        if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
+            $nombre = trim(strip_tags($_POST['nombre']));
+            $region = filter_var($_POST['region'], FILTER_VALIDATE_INT); #valida un numero entero
+
+            if (!$nombre) {
+                $msg = 'Ingrese el nombre de la comuna';
+            }elseif (!$region) {
+                $msg = 'Seleccione una región';
+            }else {
+                #modificar la comuna
+                $res = $mbd->prepare("UPDATE comunas SET nombre = ?, region_id = ? WHERE id = ?");
+                $res->bindParam(1, $nombre);
+                $res->bindParam(2, $region);
+                $res->bindParam(3, $id);
+                $res->execute();
+
+                $row = $res->rowCount();
+
+                if ($row) {
+                    $_SESSION['success'] = 'La comuna se ha modificado correctamente';
+                    header('Location: ' . COMUNAS . 'show.php?id=' . $id);
+                }
+            }
+        }
     }
 
     #listado de regiones
@@ -77,7 +104,7 @@
                     </div>
                     <input type="hidden" name="confirm" value="1">
                     <button type="submit" class="btn btn-outline-success">Editar</button>
-                    <a href="<?php echo REGIONES . 'show.php?id=' . $id; ?>" class="btn btn-outline-secondary">Volver</a>
+                    <a href="<?php echo COMUNAS . 'show.php?id=' . $id ; ?>" class="btn btn-outline-secondary">Volver</a>
                 </form>
             <?php else: ?>
                 <p class="text-info">No se puede editar esta región</p>

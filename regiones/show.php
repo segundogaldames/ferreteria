@@ -5,6 +5,8 @@
     require('../class/rutas.php');
     require('../class/conexion.php');
 
+    session_start();
+
     if (isset($_GET['id'])) {
         $id = (int) $_GET['id'];
 
@@ -14,7 +16,7 @@
         $region = $res->fetch();
 
         #lista de comunas por region
-        $res = $mbd->prepare("SELECT id, nombre FROM comunas WHERE region_id = ?");
+        $res = $mbd->prepare("SELECT id, nombre FROM comunas WHERE region_id = ? ORDER BY nombre");
         $res->bindParam(1, $id);
         $res->execute();
         $comunas = $res->fetchall();
@@ -46,6 +48,8 @@
     </header>
     <div class="container-fluid">
         <div class="col-md-6 offset-md-3">
+            <?php include('../partials/mensajes.php'); ?>
+
             <h4 class="text-success">Región</h4>
             <?php if($region): ?>
                 <table class="table table-hover">
@@ -60,7 +64,7 @@
                 </table>
                 <p>
                     <a href="<?php echo REGIONES . 'edit.php?id=' . $id; ?>" class="btn btn-outline-success">Editar</a>
-                    <a href="" class="btn btn-outline-success">Agregar Comuna</a>
+                    <a href="<?php echo COMUNAS . 'add.php?region=' . $id; ?>" class="btn btn-outline-success">Agregar Comuna</a>
                     <a href="<?php echo REGIONES; ?>" class="btn btn-outline-secondary">Volver</a>
                     <form action="" method="post"></form>
                 </p>
@@ -75,7 +79,7 @@
                 <?php if(count($comunas)): ?>
                     <div class="list-group">
                         <?php foreach($comunas as $comuna): ?>
-                            <a href="<?php echo COMUNAS . 'edit.php?id=' . $comuna['id']; ?>" class="list-group-item list-group-item-action">
+                            <a href="<?php echo COMUNAS . 'show.php?id=' . $comuna['id']; ?>" class="list-group-item list-group-item-action">
                                 <?php echo $comuna['nombre']; ?>
                             </a>
                         <?php endforeach; ?>

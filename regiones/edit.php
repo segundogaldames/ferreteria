@@ -3,6 +3,8 @@
     require('../class/rutas.php');
     require('../class/conexion.php');
 
+    session_start();
+
     if (isset($_GET['id'])) {
         $id = (int) $_GET['id'];
 
@@ -26,6 +28,7 @@
                 $row = $res->rowCount();
 
                 if ($row) {
+                    $_SESSION['success'] = 'La región se ha modificado correctamente';
                     header('Location: ' . REGIONES . 'show.php?id=' . $id);
                 }
             }
