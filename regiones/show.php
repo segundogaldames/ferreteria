@@ -62,12 +62,25 @@
                         <td><?php echo $region['nombre']; ?></td>
                     </tr>
                 </table>
-                <p>
-                    <a href="<?php echo REGIONES . 'edit.php?id=' . $id; ?>" class="btn btn-outline-success">Editar</a>
-                    <a href="<?php echo COMUNAS . 'add.php?region=' . $id; ?>" class="btn btn-outline-success">Agregar Comuna</a>
-                    <a href="<?php echo REGIONES; ?>" class="btn btn-outline-secondary">Volver</a>
-                    <form action="" method="post"></form>
-                </p>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="<?php echo REGIONES . 'edit.php?id=' . $id; ?>" class="btn btn-outline-success">Editar</a>
+                            <a href="<?php echo COMUNAS . 'add.php?region=' . $id; ?>" class="btn btn-outline-success">Agregar Comuna</a>
+                            <a href="<?php echo REGIONES; ?>" class="btn btn-outline-secondary">Volver</a>
+                        </div>
+                        <div class="col-md-6">
+                            <?php if(!$comunas): ?>
+                                <form action="<?php echo REGIONES . 'delete.php' ?>" method="post">
+                                    <input type="hidden" name="id" value="<?php echo $id; ?>">
+                                    <input type="hidden" name="confirm" value="1">
+                                    <button type="submit" class="btn btn-outline-warning">Eliminar</button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+
             <?php else: ?>
                 <p class="text-info">No hay datos</p>
             <?php endif; ?>
