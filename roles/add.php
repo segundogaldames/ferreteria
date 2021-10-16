@@ -53,7 +53,7 @@
     </header>
     <div class="container-fluid">
         <div class="col-md-6 offset-md-3">
-            <?php include('../partials/mensajes.php'); ?>
+
 
             <h4 class="text-success">Nuevo Rol</h4>
 
