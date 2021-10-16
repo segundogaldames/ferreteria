@@ -19,7 +19,7 @@
             if (!$nombre) {
                 $msg = 'Ingrese el nombre del rol';
             }else {
-                #actualzamos el nombre de la region señalada
+                #actualzamos el nombre del rol
                 $res = $mbd->prepare("UPDATE roles SET nombre = ? WHERE id = ?");
                 $res->bindParam(1, $nombre);
                 $res->bindParam(2, $rol_id);
@@ -72,7 +72,7 @@
                     </div>
                     <input type="hidden" name="confirm" value="1">
                     <button type="submit" class="btn btn-outline-success">Editar</button>
-                    <a href="<?php echo SHOW_ROL .  $rol_id; ?>" class="btn btn-outline-secondary">Volver</a>
+                    <a href="<?php echo SHOW_ROL . $rol_id; ?>" class="btn btn-outline-secondary">Volver</a>
                 </form>
             <?php else: ?>
                 <p class="text-info">No se puede editar este rol</p>

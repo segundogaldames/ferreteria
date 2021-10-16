@@ -5,7 +5,7 @@
 
     session_start();
 
-    //print_r($_SESSION);
+    //print_r($_SESSION['success']);
 
     #listado de roles
     $res = $mbd->query("SELECT id, nombre FROM roles ORDER BY nombre");

@@ -46,7 +46,7 @@
                         <tr>
                             <td><?php echo $region['id']; ?></td>
                             <td>
-                                <a href="<?php echo REGIONES . 'show.php?id=' . $region['id']; ?>">
+                                <a href="<?php echo REGIONES . 'show.php?id=' .  $region['id']; ?>">
                                     <?php echo $region['nombre']; ?>
                                 </a>
 

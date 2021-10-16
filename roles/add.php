@@ -28,6 +28,7 @@
 
                 if ($row) {
                     $_SESSION['success'] = 'El rol se ha registrado correctamente';
+                    //print_r($_SESSION['success']);exit;
                     header('Location: ' . ROLES);
                 }
             }

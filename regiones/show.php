@@ -7,8 +7,8 @@
 
     session_start();
 
-    if (isset($_GET['id'])) {
-        $id = (int) $_GET['id'];
+    if (isset($_GET['region'])) {
+        $id = (int) $_GET['region'];
 
         $res = $mbd->prepare("SELECT id, nombre FROM regiones WHERE id = ?");
         $res->bindParam(1, $id);

@@ -3,8 +3,8 @@
     require('../class/rutas.php');
     require('../class/conexion.php');
 
+    session_start();
 
-    //session_start();
 
     #listado de regiones
     $res = $mbd->query("SELECT id, nombre FROM regiones ORDER BY nombre");
