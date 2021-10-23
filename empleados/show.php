@@ -19,6 +19,7 @@
         $res->bindParam(1, $id);
         $res->execute();
         $usuario = $res->fetch();
+
     }
 
 
@@ -27,6 +28,7 @@
     print_r($regiones);exit;
     echo '</pre>'; */
 ?>
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador' || $_SESSION['usuario_rol'] == 'Supervisor' || ($_SESSION['usuario_rol'] == 'Vendedor' && $_SESSION['usuario_id'] == $usuario['id'])): ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,12 +105,20 @@
                     <?php endif; ?>
 
                 </table>
-                <a href="<?php echo EDIT_EMPLEADO . $id; ?>" class="btn btn-outline-success">Editar</a>
-                <?php if(!$usuario): ?>
-                    <a href="<?php echo ADD_USUARIO . $id; ?>" class="btn btn-outline-primary">Crear Cuenta</a>
+                <?php if($_SESSION['usuario_rol'] == 'Administrador'): ?>
+                    <a href="<?php echo EDIT_EMPLEADO . $id; ?>" class="btn btn-outline-success">Editar</a>
                 <?php else: ?>
-                    <a href="<?php echo EDIT_USUARIO . $usuario['id']; ?>" class="btn btn-outline-primary">Modificar Estado</a>
+                    <a href="<?php echo EDIT_PERFIL . $id; ?>" class="btn btn-outline-success">Editar</a>
                 <?php endif; ?>
+
+                <?php if($_SESSION['usuario_rol'] == 'Administrador'): ?>
+                    <?php if(!$usuario): ?>
+                        <a href="<?php echo ADD_USUARIO . $id; ?>" class="btn btn-outline-primary">Crear Cuenta</a>
+                    <?php else: ?>
+                        <a href="<?php echo EDIT_USUARIO . $usuario['id']; ?>" class="btn btn-outline-primary">Modificar Estado</a>
+                    <?php endif; ?>
+                <?php endif; ?>
+
                 <a href="<?php echo EMPLEADOS; ?>" class="btn btn-outline-secondary">Volver</a>
             <?php else: ?>
                 <p class="text-info">No hay datos</p>
@@ -119,3 +129,9 @@
 
 </body>
 </html>
+<?php else: ?>
+    <?php
+        $_SESSION['danger'] = 'Operación no permitida';
+        header('Location: ' . BASE_URL);
+    ?>
+<?php endif; ?>

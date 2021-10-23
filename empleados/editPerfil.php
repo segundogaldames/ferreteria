@@ -29,45 +29,29 @@
         $roles = $res->fetchall();
 
         if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
-            $rut = trim(strip_tags($_POST['rut']));
-            $nombre = trim(strip_tags($_POST['nombre']));
             $fecha_nac = trim(strip_tags($_POST['fecha_nac']));
-            $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
             $direccion = trim(strip_tags($_POST['direccion']));
             $comuna = filter_var($_POST['comuna'], FILTER_VALIDATE_INT);
-            $rol = filter_var($_POST['rol'], FILTER_VALIDATE_INT);
 
-            if (strlen($rut) < 7 || strlen($rut) > 10) {
-                $msg = 'Ingrese el RUT del empleado';
-            }elseif (strlen($nombre) < 4) {
-                $msg = 'Ingrese el nombre completo del empleado';
-            }elseif (!$fecha_nac) {
+            if (!$fecha_nac) {
                 $msg = 'Ingrese la fecha de nacimiento del empleado';
-            }elseif (!$email) {
-                $msg = 'Ingrese el correo electrónico del empleado';
             }elseif (strlen($direccion) < 6) {
                 $msg = 'Ingrese la dirección del empleado';
             }elseif (!$comuna) {
                 $msg = 'Seleccione una comuna';
-            }elseif (!$rol) {
-                $msg = 'Seleccione un rol';
             }else {
                #modificar el empleado
-                $res = $mbd->prepare("UPDATE empleados SET rut = ?, nombre = ?, fecha_nac = ?, direccion = ?, email = ?, comuna_id = ?, rol_id = ? WHERE id = ?");
-                $res->bindParam(1, $rut);
-                $res->bindParam(2, $nombre);
-                $res->bindParam(3, $fecha_nac);
-                $res->bindParam(4, $direccion);
-                $res->bindParam(5, $email);
-                $res->bindParam(6, $comuna);
-                $res->bindParam(7, $rol);
-                $res->bindParam(8, $id);
+                $res = $mbd->prepare("UPDATE empleados SET fecha_nac = ?, direccion = ?, comuna_id = ? WHERE id = ?");
+                $res->bindParam(1, $fecha_nac);
+                $res->bindParam(2, $direccion);
+                $res->bindParam(3, $comuna);
+                $res->bindParam(4, $id);
                 $res->execute();
 
                 $row = $res->rowCount();
 
                 if ($row) {
-                    $_SESSION['success'] = 'El empleado se ha modificado correctamente';
+                    $_SESSION['success'] = 'El perfil se ha modificado correctamente';
                     header('Location: ' . SHOW_EMPLEADO . $id);
                 }
             }
@@ -80,7 +64,7 @@
     print_r($regiones);exit;
     echo '</pre>'; */
 ?>
-<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador' || $_SESSION['usuario_id'] == $usuario['id']): ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,31 +90,16 @@
                 </div>
             <?php endif; ?>
 
-            <h4 class="text-success">Editar Empleado</h4>
+            <h4 class="text-success">Editar Perfil</h4>
 
             <?php if($empleado): ?>
                 <p class="text-danger">Campos obligatorios *</p>
 
             <form action="" method="POST">
                 <div class="mb-3">
-                    <label for="rut" class="form-label">RUT<span class="text-danger">*</span></label>
-                    <input type="text" name="rut" value="<?php echo $empleado['rut']; ?>" class="form-control" id="rut" aria-describedby="rut">
-                    <div id="rut" class="form-text text-danger">Ingresa el RUT o Cédula de Identidad (con guión y digito verificador, sin puntos)...</div>
-                </div>
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre<span class="text-danger">*</span></label>
-                    <input type="text" name="nombre" value="<?php echo $empleado['nombre']; ?>" class="form-control" id="nombre" aria-describedby="nombre">
-                    <div id="nombre" class="form-text text-danger">Ingresa el nombre completo...</div>
-                </div>
-                <div class="mb-3">
                     <label for="fecha_nac" class="form-label">Fecha de nacimiento<span class="text-danger">*</span></label>
                     <input type="date" name="fecha_nac" value="<?php echo $empleado['fecha_nac']; ?>" class="form-control" id="fecha_nac" aria-describedby="fecha_nac">
                     <div id="fecha_nac" class="form-text text-danger">Ingresa la fecha de nacimiento...</div>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
-                    <input type="email" name="email" value="<?php echo $empleado['email']; ?>" class="form-control" id="email" aria-describedby="email">
-                    <div id="email" class="form-text text-danger">Ingresa el correo electrónico...</div>
                 </div>
                 <div class="mb-3">
                     <label for="direccion" class="form-label">Dirección<span class="text-danger">*</span></label>
@@ -155,28 +124,10 @@
 
                     <div id="comuna" class="form-text">Selecciona la comuna...</div>
                 </div>
-                <div class="mb-3">
-                    <label for="rol" class="form-label">Rol</label>
-                    <select name="rol" class="form-control">
-                        <option value="<?php echo $empleado['rol_id']; ?>">
-                            <?php echo $empleado['rol']; ?>
-                        </option>
-
-                        <option value="">Seleccione...</option>
-
-                        <?php foreach($roles as $rol): ?>
-                            <option value="<?php echo $rol['id']; ?>">
-                                <?php echo $rol['nombre']; ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-
-                    <div id="rol" class="form-text">Selecciona el rol...</div>
-                </div>
 
                 <input type="hidden" name="confirm" value="1">
                 <button type="submit" class="btn btn-outline-success">Editar</button>
-                <a href="<?php echo SHOW_EMPLEADO . $id; ?>" class="btn btn-outline-secondary">Volver</a>
+                <a href="<?php echo BASE_URL ?>" class="btn btn-outline-secondary">Volver</a>
             </form>
             <?php else: ?>
                 <p class="text-info">No hay datos</p>

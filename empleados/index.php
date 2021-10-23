@@ -16,6 +16,7 @@
     print_r($regiones);exit;
     echo '</pre>'; */
 ?>
+<?php if(isset($_SESSION['autenticado']) && ($_SESSION['usuario_rol'] == 'Administrador' || $_SESSION['usuario_rol'] == 'Supervisor')): ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +37,11 @@
         <div class="col-md-6 offset-md-3">
             <?php include('../partials/mensajes.php'); ?>
 
-            <h4 class="text-success">Lista de Empleados | <a href="<?php echo ADD_EMPLEADO; ?>" class="btn btn-link">Nuevo Empleado</a></h4>
+            <h4 class="text-success">Lista de Empleados
+                <?php if($_SESSION['usuario_rol'] == 'Administrador'): ?>
+                    <a href="<?php echo ADD_EMPLEADO; ?>" class="btn btn-link">Nuevo Empleado</a>
+                <?php endif; ?>
+            </h4>
 
             <?php if(count($empleados)): ?>
                 <table class="table table-hover">
@@ -66,3 +71,9 @@
 
 </body>
 </html>
+<?php else: ?>
+    <?php
+        $_SESSION['danger'] = 'Operación no permitida';
+        header('Location: ' . BASE_URL);
+    ?>
+<?php endif; ?>

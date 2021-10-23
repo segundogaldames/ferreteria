@@ -35,6 +35,7 @@
         }
     }
 ?>
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -79,3 +80,9 @@
 
 </body>
 </html>
+<?php else: ?>
+    <?php
+        $_SESSION['danger'] = 'Operación no permitida';
+        header('Location: ' . BASE_URL);
+    ?>
+<?php endif; ?>

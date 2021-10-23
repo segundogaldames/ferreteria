@@ -1,6 +1,7 @@
 <?php
 #declaracion de constantes para determinar las principales rutas de la app
 define('BASE_URL','http://localhost:8080/ferreteria/');
+
 define('REGIONES', BASE_URL . 'regiones/');
 define('COMUNAS', BASE_URL . 'comunas/');
 
@@ -17,6 +18,7 @@ define('EMPLEADOS', BASE_URL . 'empleados/');
 define('ADD_EMPLEADO', EMPLEADOS . 'add.php');
 define('SHOW_EMPLEADO', EMPLEADOS . 'show.php?empleado=' . PARAM);
 define('EDIT_EMPLEADO', EMPLEADOS . 'edit.php?empleado=' . PARAM);
+define('EDIT_PERFIL', EMPLEADOS . 'editPerfil.php?empleado=' . PARAM);
 
 #rutas usuarios
 define('USUARIO', BASE_URL . 'usuarios/');
