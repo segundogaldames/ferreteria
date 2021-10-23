@@ -17,3 +17,12 @@ define('EMPLEADOS', BASE_URL . 'empleados/');
 define('ADD_EMPLEADO', EMPLEADOS . 'add.php');
 define('SHOW_EMPLEADO', EMPLEADOS . 'show.php?empleado=' . PARAM);
 define('EDIT_EMPLEADO', EMPLEADOS . 'edit.php?empleado=' . PARAM);
+
+#rutas usuarios
+define('USUARIO', BASE_URL . 'usuarios/');
+define('ADD_USUARIO', USUARIO . 'add.php?empleado=' . PARAM);
+//define('SHOW_USUARIO', USUARIO . 'show.php?usuario=' . PARAM);
+define('EDIT_USUARIO', USUARIO . 'edit.php?usuario=' . PARAM);
+define('EDIT_PASSWORD', USUARIO . 'editPassword.php?usuario=' . PARAM);
+define('LOGIN', USUARIO . 'login.php');
+define('LOGOUT', USUARIO . 'logout.php');

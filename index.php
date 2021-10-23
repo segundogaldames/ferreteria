@@ -1,6 +1,10 @@
 <?php
     #llamada al archivo de rutas
     require('class/rutas.php');
+
+    session_start();
+
+    //print_r($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +23,13 @@
         <?php include('partials/menu.php'); ?>
     </header>
     <div class="container-fluid">
-        <h1>Hola Mundo</h1>
+
+        <div class="col-md-4">
+            <?php include('partials/mensajes.php'); ?>
+        </div>
+
+
+
     </div>
 
 </body>
